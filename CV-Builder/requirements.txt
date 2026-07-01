@@ -1,0 +1,49 @@
+# ==============================================================================
+# CV Agent SaaS v7.0 — Dependencies
+# ==============================================================================
+# Install: pip install -r requirements.txt
+# For GPU support, install torch with CUDA separately first:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu121
+# ==============================================================================
+
+# ── Core (Required) ──────────────────────────────────────────────────────────
+pydantic>=2.0
+langgraph>=0.2
+python-dotenv>=1.0
+
+# ── LLM / Model Inference ────────────────────────────────────────────────────
+transformers>=4.40
+torch>=2.0
+safetensors>=0.4
+tokenizers>=0.15
+peft>=0.10
+accelerate>=0.25
+huggingface-hub>=0.20
+langchain-groq>=0.1.0
+
+# ── RAG & Embeddings ─────────────────────────────────────────────────────────
+sentence-transformers>=2.2
+faiss-cpu>=1.7
+scikit-learn>=1.3
+
+# ── API Server ────────────────────────────────────────────────────────────────
+fastapi>=0.100
+uvicorn>=0.25
+
+# ── PDF Parsing ───────────────────────────────────────────────────────────────
+pdfplumber>=0.10
+pypdf>=4.0
+
+# ── PDF Export ────────────────────────────────────────────────────────────────
+reportlab>=4.0
+mistune>=3.0
+
+# ── Ontology (YAML support) ──────────────────────────────────────────────────
+PyYAML>=6.0
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+pytest>=8.0
+
+# ── Optional but recommended ─────────────────────────────────────────────────
+numpy>=1.24
+pandas>=2.0
