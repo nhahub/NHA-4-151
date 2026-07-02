@@ -1,0 +1,12 @@
+streamlit
+pypdf
+plotly
+pandas
+python-dotenv
+json_repair
+tenacity
+fpdf2
+langgraph
+langchain-core
+langchain-groq
+tavily-python
