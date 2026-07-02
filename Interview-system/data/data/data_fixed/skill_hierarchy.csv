@@ -1,0 +1,41 @@
+hierarchy_id,skill,parent_skill_id,prerequisite_1,prerequisite_2,relationship_type,depth_level,applicable_roles,learning_order,mastery_required_before_next,assessment_gate,conflict_detection_weight,profile_analyzer_weight
+96a09588-6fe3-4414-80eb-a7640f8925ce,Python,Data Structures,Data Structures,Algorithms,core,1,Data Science|Backend|ML|QA,1,Yes,Quiz + Practical,Medium,0.65
+f8d767a9-fa6e-4449-9a13-766caceefddd,Machine Learning,Python,Python,Algorithms,specialization,2,Data Science|ML,2,Yes,Practical only,Medium,0.8
+df9b6980-458c-427a-a20d-b045913ba4fa,Deep Learning,Machine Learning,Machine Learning,Algorithms,advanced,3,ML|NLP|Computer Vision,3,Recommended,Practical only,Medium,0.95
+a78cb361-09dc-4fbe-a74c-cce7a9c90701,NLP,Deep Learning,Deep Learning,Python,specialization,4,ML|Data Science,4,Yes,Practical only,Medium,1.1
+894180a2-c0b7-4a97-b7ea-a3e0d26fa37b,Kubernetes,Docker,Docker,Cloud Computing,specialization,2,DevOps|Cloud Architect|ML Eng,5,Yes,Practical only,Medium,0.8
+c65c1f6b-b76d-484e-8df7-6a1124353dc6,React,JavaScript,JavaScript,TypeScript,specialization,2,Frontend Developer,6,Yes,Practical only,Medium,0.8
+e394244c-f930-464a-a934-d82f81c8ed01,TypeScript,JavaScript,JavaScript,Algorithms,core,1,Frontend Developer|Backend,7,Yes,Quiz + Practical,Medium,0.65
+01c05e64-867f-4f16-a7eb-148c0eb0528a,SQL,Data Structures,Data Structures,Algorithms,core,1,Backend|Data Eng|Data Science,8,Yes,Quiz + Practical,Medium,0.65
+7cbf5933-78ae-4608-b2f7-91424111b377,PostgreSQL,SQL,SQL,Data Structures,specialization,2,Backend|Data Eng,9,Yes,Practical only,Medium,0.8
+7ed55a0d-ed23-41fa-84b9-04f06de2902f,ETL,SQL,SQL,Python,core,1,Data Eng,10,Yes,Quiz + Practical,Medium,0.65
+7434eb1d-4362-4410-91d6-753be4a24864,CI/CD,Git,Git,Testing,core,1,DevOps|QA|All,11,Yes,Quiz + Practical,Medium,0.65
+164b1fbc-e274-4baa-9525-e0c6e74a76ab,Docker,Linux,Linux,Cloud Computing,core,1,DevOps|Backend|ML Eng,12,Yes,Quiz + Practical,Medium,0.65
+9e5c5208-514d-4a9c-9f59-099f36fc0cea,Cloud Computing,Linux,Linux,Networking,core,1,Cloud Architect|DevOps,13,Yes,Quiz + Practical,Medium,0.65
+de892bfe-044b-493e-a79e-101f9ae0e3e5,Security,Cloud Computing,Cloud Computing,Networking,specialization,2,Cloud Architect|Backend|DevOps,14,Yes,Practical only,Medium,0.8
+2d083be0-1e8a-4edc-8884-1750ffa52e93,Scalability,System Design,System Design,Cloud Computing,architecture,3,Cloud Architect|Backend|Senior,15,Recommended,Practical + Design,Medium,0.95
+6d8523bc-b615-4133-813f-e979ce0814b6,Algorithms,Data Structures,Data Structures,Mathematical Reasoning,core,1,All,16,Yes,Quiz + Practical,Medium,0.65
+514222eb-9b3d-4b5b-bf91-4fd14e96b998,Data Structures,Python,Python,Algorithms,core,1,All,17,Yes,Quiz + Practical,Medium,0.65
+c6320686-438f-4edc-a09c-aa4696c35685,System Design,Scalability,Scalability,Algorithms,architecture,3,Senior|Cloud Architect|Backend,18,Recommended,Practical + Design,Medium,0.95
+8b9e9a78-34bc-4a55-b315-cc951c45f56f,Leadership,Communication,Communication,Agile/Scrum,behavioral,2,Senior|Product Manager,19,Recommended,Practical only,High,0.8
+69488528-067e-4899-ac3d-1f7e49f81ebd,Communication,Teamwork,Teamwork,Critical Thinking,behavioral,1,All,20,Recommended,Practical only,High,0.65
+4e5853a7-a19d-4d3d-a454-5f5274a9d0c8,Agile/Scrum,Communication,Communication,Leadership,core,1,Product Manager|Mid|Senior,21,Yes,Quiz + Practical,Medium,0.65
+7fbd9f25-0d07-4e57-9769-3c6ab03c8922,Microservices,Docker,Docker,REST APIs,architecture,3,Backend|Cloud Architect,22,Recommended,Practical + Design,Medium,0.95
+4fe5f954-dca8-41ae-9a92-dfbab6869175,Testing,Python,Python,CI/CD,core,1,QA|Backend|Frontend,23,Yes,Quiz + Practical,Medium,0.65
+65db7a66-6498-4bf9-b283-8fd533003aff,Dynamic Programming,Algorithms,Algorithms,Recursion,advanced,3,All,24,Recommended,Practical only,Medium,0.95
+fe3ab1eb-f2f6-455c-875b-ff1e03d91be6,Graph Theory,Algorithms,Algorithms,Data Structures,advanced,3,Backend|Data Science,25,Recommended,Practical only,Medium,0.95
+b31346e6-b772-4c47-8cff-acc35bbc2cdb,Debugging,Testing,Testing,Python,core,1,All,26,Yes,Quiz + Practical,Medium,0.65
+47ef81d5-8084-4e37-9a6a-4a360e56f728,Caching,Data Structures,Data Structures,Scalability,specialization,2,Backend|Cloud,27,Yes,Practical only,Medium,0.8
+b3513565-65e2-4c95-8dd0-db1b201c5473,High Availability,Scalability,Scalability,Cloud Computing,architecture,3,Cloud Architect|DevOps,28,Recommended,Practical + Design,Medium,0.95
+07330aea-fded-4260-9f4a-bc255fe6a906,Load Balancing,Networking,Networking,Scalability,specialization,2,Cloud Architect|DevOps,29,Yes,Practical only,Medium,0.8
+fa9ca996-5285-490f-ba74-7b93ef3b2e0f,Event-Driven Architecture,Microservices,Microservices,Message Queues,architecture,3,Backend|Cloud,30,Recommended,Practical + Design,Medium,0.95
+279a3a76-0bea-455a-876d-9be1e69b1846,Message Queues,Microservices,Microservices,Networking,specialization,2,Backend|Data Eng,31,Yes,Practical only,Medium,0.8
+b23e0a13-6fe1-4b32-99fa-123f57a41901,Database Design,SQL,SQL,Data Structures,specialization,2,Backend|Data Eng,32,Yes,Practical only,Medium,0.8
+795e1cd0-d9fb-4b0b-acc6-3029710f533c,API Design,REST APIs,REST APIs,System Design,specialization,2,Backend|Frontend,33,Yes,Practical only,Medium,0.8
+d0e2c738-23d3-4caa-8a1b-4cc560d39ac6,CAP Theorem,Distributed Systems,Distributed Systems,Database Design,architecture,3,Cloud|Backend|Senior,34,Recommended,Practical + Design,Medium,0.95
+4f8c5253-e804-410f-9f23-0044d0c795d6,Distributed Systems,Scalability,Scalability,Networking,architecture,3,Cloud|Senior,35,Recommended,Practical + Design,Medium,0.95
+fe28d4b9-7bf6-4765-9703-76791a637076,Mathematical Reasoning,Algorithms,Algorithms,Critical Thinking,core,1,Data Science|ML,36,Yes,Quiz + Practical,Medium,0.65
+4546ad03-4541-4388-8313-d531c4615e55,Critical Thinking,Communication,Communication,Problem Solving,behavioral,1,All,37,Recommended,Practical only,High,0.65
+ec1df258-b7e8-46a8-bd26-519a7e834fb7,Networking,Linux,Linux,Security,core,1,DevOps|Cloud,38,Yes,Quiz + Practical,Medium,0.65
+0771947b-f3c1-4293-934f-0989afbcc35e,REST APIs,HTTP,HTTP,API Design,core,1,Backend|Frontend,39,Yes,Quiz + Practical,Medium,0.65
+a814b7eb-bbf2-42e0-b1c9-e84a268327e6,Optimization,Algorithms,Algorithms,Mathematical Reasoning,advanced,3,ML|Data Science|Backend,40,Recommended,Practical only,Medium,0.95

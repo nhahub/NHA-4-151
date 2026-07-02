@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Voice Interview System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --bg: #0a0a1a;
+      --surface: #12122a;
+      --card: #1a1a3e;
+      --border: #2a2a5e;
+      --primary: #6366f1;
+      --primary-glow: #818cf8;
+      --accent: #22d3ee;
+      --text: #e2e8f0;
+      --text-dim: #94a3b8;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --gradient: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa)
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh
+    }
+
+    .app {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px
+    }
+
+    .header {
+      text-align: center;
+      padding: 32px 0 24px
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px
+    }
+
+    .header p {
+      color: var(--text-dim);
+      font-size: 13px
+    }
+
+    .setup {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 20px
+    }
+
+    .setup h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: var(--primary-glow)
+    }
+
+    label {
+      display: block;
+      color: var(--text-dim);
+      font-size: 12px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    textarea,
+    select,
+    input[type=file] {
+      width: 100%;
+      padding: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      margin-bottom: 14px;
+      outline: none;
+      resize: vertical
+    }
+
+    textarea:focus,
+    select:focus {
+      border-color: var(--primary)
+    }
+
+    .file-upload {
+      position: relative;
+      padding: 20px;
+      background: var(--surface);
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 14px;
+      transition: border-color .2s
+    }
+
+    .file-upload:hover {
+      border-color: var(--primary)
+    }
+
+    .file-upload input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer
+    }
+
+    .file-upload .icon {
+      font-size: 24px;
+      margin-bottom: 6px
+    }
+
+    .file-upload .label {
+      color: var(--text-dim);
+      font-size: 13px
+    }
+
+    .file-name {
+      color: var(--accent);
+      font-size: 13px;
+      margin-top: 6px
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px
+    }
+
+    .btn {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, .3)
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(99, 102, 241, .4)
+    }
+
+    .btn-sm {
+      padding: 10px 20px;
+      font-size: 13px
+    }
+
+    .btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .center {
+      text-align: center;
+      margin-top: 8px
+    }
+
+    .skills-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px
+    }
+
+    .skill-tag {
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 11px;
+      font-weight: 500
+    }
+
+    .skill-pending {
+      background: rgba(99, 102, 241, .15);
+      color: var(--primary-glow);
+      border: 1px solid rgba(99, 102, 241, .3)
+    }
+
+    .skill-tested {
+      background: rgba(34, 211, 238, .15);
+      color: var(--accent);
+      border: 1px solid rgba(34, 211, 238, .3)
+    }
+
+    .skill-active {
+      background: rgba(251, 191, 36, .2);
+      color: var(--warning);
+      border: 1px solid rgba(251, 191, 36, .3);
+      animation: glow 1.5s infinite
+    }
+
+    @keyframes glow {
+
+      0%,
+      100% {
+        box-shadow: 0 0 4px rgba(251, 191, 36, .2)
+      }
+
+      50% {
+        box-shadow: 0 0 12px rgba(251, 191, 36, .4)
+      }
+    }
+
+    .interview {
+      display: none
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      font-size: 12px
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 11px;
+      font-weight: 600
+    }
+
+    .badge-phase {
+      background: rgba(99, 102, 241, .2);
+      color: var(--primary-glow)
+    }
+
+    .badge-turn {
+      background: rgba(34, 211, 238, .2);
+      color: var(--accent)
+    }
+
+    .badge-source {
+      background: rgba(34, 211, 238, .1);
+      color: var(--accent)
+    }
+
+    .question-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s
+    }
+
+    .question-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient)
+    }
+
+    .question-card h3 {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px
+    }
+
+    .question-card p {
+      font-size: 15px;
+      line-height: 1.7
+    }
+
+    .eval-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      display: none
+    }
+
+    .eval-card .score {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 6px
+    }
+
+    .eval-card .rationale {
+      color: var(--text-dim);
+      font-size: 13px;
+      line-height: 1.5
+    }
+
+    .answer-area {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: opacity .3s
+    }
+
+    .answer-area h3 {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px
+    }
+
+    .answer-area textarea {
+      width: 100%;
+      min-height: 100px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none
+    }
+
+    .answer-area textarea:focus {
+      border-color: var(--primary)
+    }
+
+    .answer-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      align-items: center
+    }
+
+    .mic-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+      font-size: 20px
+    }
+
+    .mic-btn.recording {
+      border-color: var(--danger);
+      background: rgba(248, 113, 113, .15);
+      animation: pulse 1.5s infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(248, 113, 113, .4)
+      }
+
+      50% {
+        box-shadow: 0 0 0 10px rgba(248, 113, 113, 0)
+      }
+    }
+
+    .transcript {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      max-height: 250px;
+      overflow-y: auto;
+      display: none
+    }
+
+    .transcript h3 {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px
+    }
+
+    .transcript-entry {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      line-height: 1.5
+    }
+
+    .transcript-entry:last-child {
+      border: none
+    }
+
+    .role {
+      font-weight: 600;
+      margin-bottom: 2px
+    }
+
+    .role-interviewer {
+      color: var(--primary-glow)
+    }
+
+    .role-candidate {
+      color: var(--accent)
+    }
+
+    .role-eval {
+      color: var(--warning)
+    }
+
+    .report {
+      display: none;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px
+    }
+
+    .report h2 {
+      font-size: 20px;
+      margin-bottom: 18px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent
+    }
+
+    .report-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px
+    }
+
+    .report-stat {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 16px
+    }
+
+    .report-stat .label {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px
+    }
+
+    .report-stat .value {
+      font-size: 22px;
+      font-weight: 700
+    }
+
+    .report-section {
+      margin-bottom: 16px
+    }
+
+    .report-section h4 {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 8px
+    }
+
+    .report-section li {
+      font-size: 13px;
+      margin-bottom: 4px;
+      padding-left: 14px;
+      position: relative
+    }
+
+    .report-section li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 7px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%
+    }
+
+    .strength::before {
+      background: var(--success)
+    }
+
+    .improvement::before {
+      background: var(--warning)
+    }
+
+    .loading {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .8s linear infinite
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .status-msg {
+      color: var(--text-dim);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="header">
+      <h1>AI Voice Interview System</h1>
+      <p>Adaptive JD-driven interviews | Powered by LangGraph + Groq</p>
+    </div>
+    <div id="setupPanel">
+      <div class="setup">
+        <h2>1. Job Description</h2>
+        <label>Paste the full job description</label>
+        <textarea id="jdInput" rows="8"
+          placeholder="Paste the complete job description here...&#10;&#10;Example:&#10;We are looking for a Senior Backend Engineer with experience in Python, Django, PostgreSQL, and AWS. You will be responsible for designing scalable APIs, mentoring junior developers, and conducting code reviews..."></textarea>
+      </div>
+      <div class="setup">
+        <h2>2. Candidate CV (Optional)</h2>
+        <div class="file-upload" id="fileUploadZone">
+          <div class="icon">📄</div>
+          <div class="label">Drop CV here or click to browse (PDF, DOCX, TXT)</div>
+          <input type="file" id="cvFile" accept=".pdf,.docx,.doc,.txt" onchange="handleFileSelect(this)">
+        </div>
+        <div class="file-name" id="fileName"></div>
+      </div>
+      <div class="setup">
+        <h2>3. Interview Mode</h2>
+        <div class="row">
+          <div><label>Mode</label><select id="modeSelect">
+              <option value="text">Text (type answers)</option>
+              <option value="voice">Voice (speak answers)</option>
+            </select></div>
+          <div><label>Fallback Role (if no JD)</label><select id="roleSelect">
+              <option value="">-- Select if no JD --</option>
+              <option value="EXP-SOFT-SEN">Senior Software Engineer</option>
+              <option value="EXP-DATA-SEN">Senior Data Scientist</option>
+            </select></div>
+        </div>
+        <div class="center"><button class="btn btn-primary" id="startBtn" onclick="startInterview()">Start
+            Interview</button></div>
+      </div>
+    </div>
+
+    <div class="interview" id="interviewPanel">
+      <div class="status-bar">
+        <div><span class="badge badge-phase" id="phaseLabel">Technical</span> <span class="badge badge-turn"
+            id="turnLabel">Turn 1</span></div>
+        <div class="status-msg" id="statusMsg">Ready</div>
+      </div>
+      <div id="skillsBar" class="skills-bar"></div>
+      <div class="question-card" id="questionCard">
+        <h3>Current Question <span class="badge badge-source" id="sourceLabel"></span></h3>
+        <p id="questionText">Loading...</p>
+      </div>
+      <div class="eval-card" id="evalCard">
+        <div class="score" id="evalScore"></div>
+        <div class="rationale" id="evalRationale"></div>
+      </div>
+      <div class="answer-area" id="answerArea">
+        <h3>Your Answer</h3>
+        <textarea id="answerInput"
+          placeholder="Type your answer here... (Enter to submit, Shift+Enter for new line)"></textarea>
+        <div class="answer-controls">
+          <button class="mic-btn" id="micBtn" onclick="toggleMic()" style="display:none">🎤</button>
+          <button class="btn btn-primary btn-sm" id="submitBtn" onclick="submitAnswer()">Submit Answer</button>
+          <span class="status-msg" id="answerStatus"></span>
+        </div>
+      </div>
+      <div class="transcript" id="transcriptPanel">
+        <h3>Interview Transcript</h3>
+        <div id="transcriptList"></div>
+      </div>
+    </div>
+    <div class="report" id="reportPanel"></div>
+  </div>
+
+  <script>
+    let sessionId = null, ws = null, isRecording = false, audioContext = null, mode = 'text';
+    let allSkills = [], testedSkills = [];
+    let audioUnlocked = false, ttsAudio = null;
+    const API = '';
+
+    function handleFileSelect(input) {
+      const f = input.files[0];
+      document.getElementById('fileName').textContent = f ? `Selected: ${f.name} (${(f.size / 1024).toFixed(0)} KB)` : '';
+    }
+
+    function unlockAudio() {
+      if (audioUnlocked) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const buf = ctx.createBuffer(1, 1, 22050); const src = ctx.createBufferSource();
+        src.buffer = buf; src.connect(ctx.destination); src.start(); audioUnlocked = true;
+      } catch (e) { }
+    }
+
+    async function startInterview() {
+      unlockAudio();
+      const jd = document.getElementById('jdInput').value.trim();
+      const cvInput = document.getElementById('cvFile');
+      const roleId = document.getElementById('roleSelect').value;
+      mode = document.getElementById('modeSelect').value;
+      if (!jd && !roleId) { alert('Please paste a Job Description or select a fallback role.'); return; }
+      const btn = document.getElementById('startBtn');
+      btn.disabled = true; btn.textContent = 'Starting...';
+      const formData = new FormData();
+      formData.append('jd_text', jd); formData.append('role_id', roleId);
+      if (cvInput.files[0]) formData.append('cv_file', cvInput.files[0]);
+      try {
+        const res = await fetch(API + '/api/sessions', { method: 'POST', body: formData });
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+        sessionId = data.session_id;
+        allSkills = data.jd_skills || data.pending_skills || []; testedSkills = [];
+        document.getElementById('setupPanel').style.display = 'none';
+        document.getElementById('interviewPanel').style.display = 'block';
+        document.getElementById('transcriptPanel').style.display = 'block';
+        updateStatus(data); updateSkillsBar();
+        document.getElementById('questionText').textContent = data.question_text;
+        document.getElementById('sourceLabel').textContent = '🎯 Opening';
+        addTranscript('interviewer', data.question_text);
+        if (mode === 'voice') document.getElementById('micBtn').style.display = 'flex';
+        if (data.question_audio_b64) { setSpeaking(true); await playAudioB64(data.question_audio_b64); setSpeaking(false); }
+        setStatus('ready', 'Your turn — answer the question');
+      } catch (e) { alert('Failed: ' + e.message); btn.disabled = false; btn.textContent = 'Start Interview'; }
+    }
+
+    async function submitAnswer() {
+      unlockAudio();
+      const input = document.getElementById('answerInput');
+      const text = input.value.trim(); if (!text) return;
+      const btn = document.getElementById('submitBtn'); btn.disabled = true;
+      setStatus('processing', 'AI is evaluating your answer...');
+      addTranscript('candidate', text);
+      const formData = new FormData(); formData.append('text', text);
+      try {
+        const res = await fetch(API + `/api/sessions/${sessionId}/text-answer`, { method: 'POST', body: formData });
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error(errText || 'Server Error');
+        }
+        await handleResult(await res.json());
+      } catch (e) {
+        console.error("Submit Error:", e);
+        setStatus('error', 'Error: ' + e.message);
+      }
+      input.value = ''; btn.disabled = false;
+    }
+
+    async function handleResult(data) {
+      if (data.score != null) {
+        showEval(data.score, data.rationale);
+        addTranscript('eval', `Score: ${data.score}/10 — ${data.rationale}`);
+        if (allSkills.length > testedSkills.length) { const nextSkill = allSkills[testedSkills.length]; if (nextSkill && !testedSkills.includes(nextSkill)) { testedSkills.push(nextSkill); updateSkillsBar(); } }
+      }
+      if (data.status === 'complete' || data.report) { showReport(data.report); return; }
+      if (data.question_text) {
+        document.getElementById('questionText').textContent = data.question_text;
+        const src = data.source || ''; let srcLabel = '';
+        if (src.includes('probe')) srcLabel = '🔍 Probing deeper';
+        else if (src.includes('clarify')) srcLabel = '❓ Clarifying';
+        else if (src.includes('challenge')) srcLabel = '⚡ Challenging';
+        else if (src.includes('pivot')) srcLabel = '➡️ New skill';
+        else if (src.includes('new_topic')) srcLabel = '💡 Your mention';
+        else if (src.includes('opening')) srcLabel = '🎯 Opening';
+        else srcLabel = src || 'adaptive';
+        document.getElementById('sourceLabel').textContent = srcLabel;
+        addTranscript('interviewer', data.question_text);
+      }
+      updateStatus(data);
+      if (data.question_audio_b64) { setSpeaking(true); await playAudioB64(data.question_audio_b64); setSpeaking(false); }
+      setStatus('ready', 'Your turn — answer the question');
+    }
+
+    function setSpeaking(on) {
+      const card = document.getElementById('questionCard'), area = document.getElementById('answerArea');
+      if (on) {
+        card.style.borderColor = 'var(--accent)'; card.style.boxShadow = '0 0 20px rgba(34,211,238,.15)';
+        setStatus('speaking', '🔊 AI is speaking...'); area.style.opacity = '0.5'; area.style.pointerEvents = 'none';
+      } else {
+        card.style.borderColor = 'var(--border)'; card.style.boxShadow = 'none';
+        area.style.opacity = '1'; area.style.pointerEvents = 'auto';
+      }
+    }
+
+    function updateSkillsBar() {
+      const bar = document.getElementById('skillsBar'); let h = '';
+      allSkills.forEach((s, i) => {
+        const c = i < testedSkills.length ? 'skill-tested' : i === testedSkills.length ? 'skill-active' : 'skill-pending';
+        h += `<span class="skill-tag ${c}">${s}</span>`;
+      }); bar.innerHTML = h;
+    }
+
+    function updateStatus(d) {
+      if (d.phase) document.getElementById('phaseLabel').textContent = d.phase;
+      if (d.turn) document.getElementById('turnLabel').textContent = `Turn ${d.turn}`;
+    }
+
+    function setStatus(t, m) { document.getElementById('statusMsg').innerHTML = t === 'processing' ? `<span class="loading"></span> ${m}` : m; }
+
+    function showEval(score, rat) {
+      const card = document.getElementById('evalCard'); card.style.display = 'block';
+      const c = score >= 7 ? 'var(--success)' : score >= 4 ? 'var(--warning)' : 'var(--danger)';
+      document.getElementById('evalScore').innerHTML = `<span style="color:${c}">${score}/10</span>`;
+      document.getElementById('evalRationale').textContent = rat || ''; setTimeout(() => card.style.display = 'none', 6000);
+    }
+
+    function escapeHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+    function addTranscript(role, text) {
+      const list = document.getElementById('transcriptList');
+      const cls = role === 'interviewer' ? 'role-interviewer' : role === 'candidate' ? 'role-candidate' : 'role-eval';
+      const lbl = role === 'interviewer' ? '🎙️ Interviewer' : role === 'candidate' ? '👤 You' : '📊 Evaluation';
+      const entry = document.createElement('div'); entry.className = 'transcript-entry';
+      entry.innerHTML = `<div class="role ${cls}">${lbl}</div><div>${escapeHtml(text)}</div>`;
+      list.appendChild(entry);
+      list.parentElement.scrollTop = list.parentElement.scrollHeight;
+    }
+
+    function showReport(report) {
+      if (!report) return;
+      document.getElementById('interviewPanel').style.display = 'none';
+      const p = document.getElementById('reportPanel'); p.style.display = 'block';
+      const sc = report.overall_score >= 7 ? 'var(--success)' : report.overall_score >= 4 ? 'var(--warning)' : 'var(--danger)';
+      const rc = report.recommendation?.includes('HIRE') && !report.recommendation?.includes('NO') ? 'var(--success)' : 'var(--danger)';
+      let dom = ''; if (report.domain_scores) {
+        for (const [d, info] of Object.entries(report.domain_scores)) {
+          const s = typeof info === 'object' ? info.score : info; dom += `<div class="report-stat"><div class="label">${d}</div><div class="value">${s}/10</div></div>`;
+        }
+      }
+      let str = (report.strengths || []).map(s => `<li class="strength">${s}</li>`).join('');
+      let imp = (report.areas_for_improvement || []).map(a => `<li class="improvement">${a}</li>`).join('');
+      let softHtml = ''; const ss = report.soft_skills;
+      if (ss && ss.scores) {
+        const dims = [{ key: 'communication_clarity', label: 'Communication', icon: '💬' }, { key: 'structured_thinking', label: 'Structured Thinking', icon: '🧠' },
+        { key: 'confidence', label: 'Confidence', icon: '💪' }, { key: 'professionalism', label: 'Professionalism', icon: '👔' }, { key: 'conciseness', label: 'Conciseness', icon: '✂️' }];
+        let bars = ''; dims.forEach(d => {
+          const v = ss.scores[d.key] || 5; const c = v >= 7 ? 'var(--success)' : v >= 4 ? 'var(--warning)' : 'var(--danger)';
+          bars += `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>${d.icon} ${d.label}</span><span style="color:${c};font-weight:600">${v}/10</span></div><div style="background:var(--surface);border-radius:6px;height:6px;overflow:hidden"><div style="background:${c};width:${v * 10}%;height:100%;border-radius:6px"></div></div></div>`;
+        });
+        const ssC = ss.overall_soft_score >= 7 ? 'var(--success)' : ss.overall_soft_score >= 4 ? 'var(--warning)' : 'var(--danger)';
+        softHtml = `<div class="report-section" style="margin-top:20px"><h4>🎯 Soft Skills & Communication</h4><div class="report-grid" style="margin-bottom:12px"><div class="report-stat"><div class="label">Soft Skills Score</div><div class="value" style="color:${ssC}">${ss.overall_soft_score}/10</div></div><div class="report-stat"><div class="label">Filler Words</div><div class="value" style="font-size:16px">${ss.total_filler_words || 0} total</div></div></div>${bars}${ss.feedback ? `<p style="color:var(--accent);font-size:13px;margin-top:8px;padding:10px;background:rgba(34,211,238,.08);border-radius:8px">📝 ${ss.feedback}</p>` : ''}</div>`;
+      }
+      p.innerHTML = `<h2>Interview Report</h2><div class="report-grid"><div class="report-stat"><div class="label">Overall Score</div><div class="value" style="color:${sc}">${report.overall_score}/10</div></div><div class="report-stat"><div class="label">Recommendation</div><div class="value" style="color:${rc};font-size:16px">${report.recommendation || 'N/A'}</div></div><div class="report-stat"><div class="label">Role</div><div class="value" style="font-size:14px">${report.role_title || ''} (${report.seniority || ''})</div></div><div class="report-stat"><div class="label">Turns</div><div class="value">${report.total_turns || 0}</div></div>${dom}</div>${str ? `<div class="report-section"><h4>Strengths</h4><ul>${str}</ul></div>` : ''}${imp ? `<div class="report-section"><h4>Areas for Improvement</h4><ul>${imp}</ul></div>` : ''}${softHtml}${report.executive_summary ? `<div class="report-section"><h4>Summary</h4><p style="color:var(--text-dim);line-height:1.6;font-size:13px">${report.executive_summary}</p></div>` : ''}<br><button class="btn btn-primary" onclick="location.reload()">New Interview</button>`;
+    }
+
+    function playAudioB64(b64) {
+      return new Promise((resolve) => {
+        try {
+          if (ttsAudio) { ttsAudio.pause(); if (ttsAudio.src) URL.revokeObjectURL(ttsAudio.src); ttsAudio = null; }
+          const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+          const blob = new Blob([bytes], { type: 'audio/mpeg' });
+          const url = URL.createObjectURL(blob);
+          ttsAudio = new Audio(url);
+
+          let resolved = false;
+          const doResolve = () => { if (!resolved) { resolved = true; URL.revokeObjectURL(url); resolve(); } };
+
+          ttsAudio.onended = doResolve;
+          ttsAudio.onerror = (e) => { console.warn('Audio playback error', e); doResolve(); };
+          ttsAudio.play().catch((err) => { console.warn('Audio blocked', err); doResolve(); });
+
+          // Safety timeout: auto-unlock UI after 15 seconds if audio gets stuck
+          setTimeout(doResolve, 15000);
+        } catch (e) {
+          console.error("playAudioB64 exception:", e);
+          resolve();
+        }
+      });
+    }
+
+    async function toggleMic() {
+      unlockAudio(); const btn = document.getElementById('micBtn');
+      if (isRecording) {
+        stopRecording(); btn.classList.remove('recording'); btn.textContent = '🎤'; setStatus('processing', 'Transcribing...');
+        if (ws) ws.send(JSON.stringify({ type: 'end_of_speech' }));
+      } else {
+        await startRecording(); btn.classList.add('recording'); btn.textContent = '⏹';
+        setStatus('listening', '🎤 Listening...');
+      } isRecording = !isRecording;
+    }
+
+    async function startRecording() {
+      if (!ws) {
+        const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+        ws = new WebSocket(`${proto}//${location.host}/ws/${sessionId}`);
+        ws.onmessage = async (e) => {
+          const d = JSON.parse(e.data); if (d.type === 'result') await handleResult(d);
+          else if (d.type === 'complete') await handleResult({ ...d, status: 'complete' });
+          else if (d.type === 'question_audio' && d.audio_b64) { setSpeaking(true); await playAudioB64(d.audio_b64); setSpeaking(false); }
+          else if (d.type === 'stop_audio') { if (ttsAudio) { ttsAudio.pause(); ttsAudio = null; setSpeaking(false); } }
+          else if (d.type === 'processing') {
+            setStatus('processing', d.message || 'Processing...');
+            if (isRecording) {
+              const btn = document.getElementById('micBtn');
+              stopRecording(); btn.classList.remove('recording'); btn.textContent = '🎤'; isRecording = false;
+            }
+          };
+        };
+      }
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: { sampleRate: 16000, channelCount: 1 } });
+      audioContext = new AudioContext({ sampleRate: 16000 }); const src = audioContext.createMediaStreamSource(stream);
+      const proc = audioContext.createScriptProcessor(4096, 1, 1); src.connect(proc); proc.connect(audioContext.destination);
+      proc.onaudioprocess = (e) => {
+        if (!isRecording || !ws || ws.readyState !== WebSocket.OPEN) return; const f = e.inputBuffer.getChannelData(0);
+        const i = new Int16Array(f.length); for (let x = 0; x < f.length; x++)i[x] = Math.max(-32768, Math.min(32767, Math.floor(f[x] * 32768))); ws.send(i.buffer);
+      };
+      window._stream = stream; window._proc = proc;
+    }
+
+    function stopRecording() {
+      if (window._stream) { window._stream.getTracks().forEach(t => t.stop()); window._stream = null; }
+      if (window._proc) { window._proc.disconnect(); window._proc = null; }
+      if (audioContext) { audioContext.close(); audioContext = null; }
+    }
+
+    const _answerInput = document.getElementById('answerInput'); if (_answerInput) _answerInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitAnswer(); } });
+  </script>
+</body>
+
+</html>
