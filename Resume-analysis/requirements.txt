@@ -1,0 +1,13 @@
+transformers
+peft
+bitsandbytes
+accelerate
+torch
+fastapi
+uvicorn
+streamlit
+pydantic
+PyMuPDF
+python-multipart
+python-dotenv
+pdfplumber
